@@ -44,3 +44,4 @@ core
 lost+found
 build
 .vscode
+.DS_Store
