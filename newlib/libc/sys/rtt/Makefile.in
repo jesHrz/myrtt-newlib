@@ -53,7 +53,7 @@ ARFLAGS = cru
 lib_a_AR = $(AR) $(ARFLAGS)
 @MAY_SUPPLY_SYSCALLS_TRUE@am__DEPENDENCIES_1 = $(lpfx)syscalls.o
 am_lib_a_OBJECTS = lib_a-syscalls.$(OBJEXT) lib_a-crt0.$(OBJEXT) \
-	lib_a-signal.$(OBJEXT)
+	lib_a-signal.$(OBJEXT) lib_a-malloc.$(OBJEXT)
 lib_a_OBJECTS = $(am_lib_a_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp =
@@ -175,7 +175,7 @@ AM_CCASFLAGS = $(INCLUDES)
 noinst_LIBRARIES = lib.a
 @MAY_SUPPLY_SYSCALLS_FALSE@extra_objs = 
 @MAY_SUPPLY_SYSCALLS_TRUE@extra_objs = $(lpfx)syscalls.o
-lib_a_SOURCES = syscalls.c crt0.c signal.c
+lib_a_SOURCES = syscalls.c crt0.c signal.c malloc.c
 lib_a_LIBADD = $(extra_objs)
 EXTRA_lib_a_SOURCES = 
 lib_a_DEPENDENCIES = $(extra_objs)
@@ -258,6 +258,12 @@ lib_a-signal.o: signal.c
 
 lib_a-signal.obj: signal.c
 	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-signal.obj `if test -f 'signal.c'; then $(CYGPATH_W) 'signal.c'; else $(CYGPATH_W) '$(srcdir)/signal.c'; fi`
+
+lib_a-malloc.o: malloc.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-malloc.o `test -f 'malloc.c' || echo '$(srcdir)/'`malloc.c
+
+lib_a-malloc.obj: malloc.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-malloc.obj `if test -f 'malloc.c'; then $(CYGPATH_W) 'malloc.c'; else $(CYGPATH_W) '$(srcdir)/malloc.c'; fi`
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \

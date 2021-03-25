@@ -438,7 +438,7 @@ esac
 case "${host}" in
   arm-rtt-*)
 	sys_dir=rtt
-	newlib_cflags="${newlib_cflags} -DSIGNAL_PROVIDED"
+	newlib_cflags="${newlib_cflags} -DSIGNAL_PROVIDED -DMALLOC_PROVIDED"
 	libc_cv_initfinit_array=yes
 	;;
   *-*-cygwin*)
