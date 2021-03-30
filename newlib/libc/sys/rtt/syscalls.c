@@ -327,42 +327,54 @@ _rename (const char *old,
 }
 
 void *
-_malloc (size_t size)
+_malloc_r (struct _reent *ptr, 
+           size_t         size)
 {
-  void *result = (void *)syscall_1(SYS_malloc, (long)size);
+  void* result;
 
+  result = (void *)syscall_1(SYS_malloc, (long)size);
   if (result == NULL)
-    errno = ENOMEM;
+    {
+      ptr->_errno = ENOMEM;
+    }
 
   return result;
 }
 
 void *
-_realloc (void   *old, 
-          size_t  newlen)
+_realloc_r (struct _reent *ptr, 
+            void          *old, 
+            size_t         newlen)
 {
-  void *result = (void *)syscall_2(SYS_realloc, (long)old, (long)newlen);
+  void* result;
 
+  result = (void *)syscall_2(SYS_realloc, (long)old, (long)newlen);
   if (result == NULL)
-    errno = ENOMEM;
+    {
+      ptr->_errno = ENOMEM;
+    }
 
   return result;
 }
 
 void *
-_calloc (size_t size, 
-         size_t len)
+_calloc_r (struct _reent *ptr, 
+           size_t         size, 
+           size_t         len)
 {
-  void *result = (void *)syscall_2(SYS_calloc, (long)size, (long)len);
+  void* result;
 
+  result = (void *)syscall_2(SYS_calloc, (long)size, (long)len);
   if (result == NULL)
-    errno = ENOMEM;
+    {
+      ptr->_errno = ENOMEM;
+    }
 
   return result;
 }
 
 void
-_free (void *addr)
+_free_r (struct _reent *ptr, void *addr)
 {
   (void)syscall_1(SYS_free, (long)addr);
 }
@@ -379,11 +391,4 @@ _settimeofday (struct timeval  *tp,
                struct timezone *tzp)
 {
     return syscall_2(SYS_settimeofday, (long)tp, (long)tzp);
-}
-
-void *
-_sbrk (ptrdiff_t incr)
-{
-  errno = ENOSYS;
-  return NULL;
 }

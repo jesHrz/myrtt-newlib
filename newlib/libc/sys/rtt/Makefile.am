@@ -14,7 +14,7 @@ else
 extra_objs =
 endif
 
-lib_a_SOURCES = syscalls.c crt0.c signal.c
+lib_a_SOURCES = syscalls.c crt0.c signal.c malloc.c
 lib_a_LIBADD = $(extra_objs)
 EXTRA_lib_a_SOURCES = 
 lib_a_DEPENDENCIES = $(extra_objs)
