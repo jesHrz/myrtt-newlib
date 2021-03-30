@@ -436,6 +436,11 @@ esac
 # THIS TABLE IS ALPHA SORTED.  KEEP IT THAT WAY.
 
 case "${host}" in
+  arm-rtt-*)
+	sys_dir=rtt
+	newlib_cflags="${newlib_cflags} -DSIGNAL_PROVIDED"
+	libc_cv_initfinit_array=yes
+	;;
   *-*-cygwin*)
 	posix_dir=posix
 	stdio64_dir=stdio64
