@@ -29,19 +29,16 @@ WEAK void *__libc_fini = 0;
 __attribute__((noreturn))
 void _start(void)
 {
-    int argc, rc;
+    int argc;
     char *argv[ARG_MAX];
 
     atexit(__libc_fini_array);
 
-    __libc_init_array();
-
     memset(argv, 0, sizeof(argv));
-    syscall_2(SYS_dlmodule_init, (long)&argc, (long)argv);
+    _dlmodule_init((long)&argc, (long)argv);
 
-    rc = main(argc, argv);
-    syscall_0(SYS_dlmodule_cleanup);
-    exit(rc);
+    __libc_init_array();
+    exit(main(argc, argv));
 
     /* !!! should not reach there !!! */
     while(1);

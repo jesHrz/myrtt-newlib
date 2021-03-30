@@ -1,6 +1,4 @@
 #define _GNU_SOURCE
-#include "syscalls.h"
-
 #include <signal.h>
 #include <sys/types.h>
 
@@ -19,10 +17,9 @@ sighandler_t
 signal (int          signum, 
         sighandler_t handler)
 {
-  int rc = (int)syscall_2(SYS_signal, (long)signum, (long)handler);
+  int rc = (int)_signal(signum, handler);
   if (rc < 0)
     {
-      errno = -rc;
       return SIG_ERR;
     }
   return (sighandler_t)rc;
@@ -33,20 +30,12 @@ sigprocmask(int             how,
             const sigset_t *set, 
             sigset_t       *oldset)
 {
-  int rc = (int)syscall_3(SYS_sigprocmask, (long)how, (long)set, (long)oldset);
-  if (rc < 0)
-    {
-      errno = -rc;
-      rc = -1;
-    }
-  return rc;
+  return _sigprocmask(how, set, oldset);
 }
 
 int sigaction(int signum, const struct sigaction *act, struct sigaction *oldact)
 {
-	/* TODO: implement. */
-	errno = ENOSYS;
-	return -1;
+  return _sigaction(signum, act, oldact);  
 }
 
 int sigsuspend(const sigset_t *mask)
